@@ -1,55 +1,35 @@
-CREATE TABLE departamenteeeeee(
-    loc VARCHAR(20),
-    ID INT,
-    dname VARCHAR(20) NOT NULL,
-    deptno INT UNIQUE,
-    CONSTRAINT deparatment_id_pk PRIMARY KEY (ID)
-);
+CREATE TABLE DEPARTAMENTELE(
+    id_dept INT,
+    nume VARCHAR(25));
 
-CREATE TABLE anagajatiiiiiiiiiii(
-    sal INT NOT NULL,
-    empno INT UNIQUE,
-    CONSTRAINT angajati_empno_pk PRIMARY KEY (empno),
-    mgr INT,
-    deptno_fk INT,
-    ename VARCHAR(30)
-);
+INSERT INTO DEPARTAMENTELE(id_dept, nume)
+VALUES(1, 'Productie'),
+      (2,'Vanzari'),
+      (3, 'Contabilitate');
 
-ALTER TABLE anagajatiiiiiiiiiii
-ADD CONSTRAINT check_angajati_ck CHECK ( sal BETWEEN 500 AND 5000);
+DESCRIBE DEPARTAMENTELE;
 
-ALTER TABLE departamenteeeeee
-ADD CONSTRAINT check_dep_ck CHECK ( loc <> '' );
+CREATE TABLE angajati(
+    id_ang INT,
+    nume VARCHAR(20),
+    prenume VARCHAR(15),
+    id_dept INT);
 
-ALTER TABLE anagajatiiiiiiiiiii
-ADD CONSTRAINT foreign_key_angajati FOREIGN KEY(mgr)
-REFERENCES anagajatiiiiiiiiiii(empno);
+INSERT INTO angajati
+VALUES
+    (1, 'Claudiu', 'Claudiu',2),
+    (2, 'Mario', 'Mario', 3),
+    (3, 'Marian', 'Marian', 1),
+    (4, 'Corina', 'Corina', 1);
 
-ALTER TABLE anagajatiiiiiiiiiii
-ADD CONSTRAINT fk_angajati_dep FOREIGN KEY(deptno_fk)
-REFERENCES departamenteeeeee(ID);
+DELETE FROM DEPARTAMENTELE
+WHERE id_dept > 1;
 
-INSERT INTO departamenteeeeee(loc, ID, dname, deptno)
-VALUES ('Iasi', 10, 'IT', 100),
-       ('Bucuresti', 20, 'Vanzari', 200);
+DELETE FROM angajati
+WHERE id_dept = 1;
 
-INSERT INTO anagajatiiiiiiiiiii(sal, empno, mgr, deptno_fk, ename)
-VALUES (3000, 3, NULL, 10, 'King');
+TRUNCATE angajati;
 
-INSERT INTO anagajatiiiiiiiiiii(sal, empno, mgr, deptno_fk, ename)
-VALUES (2000, 1, 3, 20, 'Marius'),
-       (3000, 2, 1, 10, 'Eric');
+DROP TABLE angajati;
 
-SELECT *
-FROM information_schema.TABLE_CONSTRAINTS
-WHERE TABLE_NAME = 'anagajatiiiiiiiiiii';
-
-SELECT *
-FROM information_schema.TABLE_CONSTRAINTS
-WHERE TABLE_NAME = 'departamenteeeeee';
-
-ALTER TABLE departamenteeeeee
-DROP CONSTRAINT check_dep_ck;
-
-ALTER TABLE anagajatiiiiiiiiiii
-DROP CONSTRAINT check_angajati_ck;
+DROP TABLE DEPARTAMENTELE;
